@@ -164,3 +164,40 @@ function handleRegister(e) {
             setTimeout(() => { alert("Registration Successful"); btn.innerHTML = originalText; }, 800);
     }
 }
+
+//------------------Forgot Password------------------
+function handleReset(e) {
+    e.preventDefault();
+    const emailInput = e.target.querySelector('input[name="email"]');
+    const isValid = validateField(emailInput);
+    const btn = e.target.querySelector('button[type="submit"]');
+
+    if (!isValid) {
+        //Shake animation on error
+        e.target.classList.add('animate-shake');
+        setTimeout(() => e.target.classList.remove('animate-shake'), 500);
+    } else {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+        
+        setTimeout(() => {
+            //Replace form with Success Message
+            const container = document.getElementById('forgotForm');
+            container.innerHTML = `
+                <div class="text-center animate-[fadeInUp_0.4s_ease]">
+                    <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Check your email</h3>
+                    <p class="text-slate-500 text-sm mb-6">We sent a password reset link to <br><strong>${emailInput.value}</strong></p>
+                    <a href="index.html" class="block w-full bg-brand-600 text-white font-bold py-2.5 rounded-lg shadow-md hover:bg-brand-500 transition-all">
+                        Back to log in
+                    </a>
+                    <div class="mt-4 text-xs text-slate-400">
+                        Didn't receive the email? <a href="#" onclick="window.location.reload()" class="text-brand-600 hover:underline">Click to resend</a>
+                    </div>
+                </div>
+            `;
+        }, 1000);
+    }
+}
